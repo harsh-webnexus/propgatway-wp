@@ -27,7 +27,8 @@ body {
   height: calc(100vh - 32px);
   background: #fcfcfd;
   border-radius: 22px;
-  overflow: hidden;
+  overflow: auto;
+  scrollbar-width: none;
   box-shadow: 0 10px 28px rgba(16, 24, 40, 0.08);
 }
 
@@ -78,14 +79,16 @@ body {
 
   .screen {
     height: auto;
-    min-height: 100vh;
+    
     padding: 10px;
   }
 
   .content-card {
-    min-height: calc(100vh - 20px);
-    height: auto;
     border-radius: 16px;
+    min-height: 100vh;
+    max-height: 100vh;
+    overflow: auto !important;
+
   }
 
   .hero-image {

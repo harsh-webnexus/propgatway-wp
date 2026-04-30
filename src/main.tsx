@@ -7,7 +7,9 @@ import './style.css';
 type PageData = {
   title?: string;
   imageUrl?: string;
-  description?: string;
+  insta_imageUrl?:string;
+  long_description?: string;
+  short_description?:string;
 };
 
 function ContentPage() {
@@ -15,15 +17,19 @@ function ContentPage() {
 
   const data = React.useMemo((): PageData | null => {
     const title = searchParams.get('title')?.trim() ?? '';
-    const description = searchParams.get('description')?.trim() ?? '';
+    const long_description = searchParams.get('long_description')?.trim() ?? '';
+    const short_description = searchParams.get('short_description')?.trim() ?? '';
     const image = searchParams.get('image')?.trim() ?? '';
-    if (!title && !description && !image) {
+    const insta_image = searchParams.get('insta_image')?.trim() ?? '';
+    if (!title && !long_description && !short_description && !image) {
       return null;
     }
     return {
       ...(title ? { title } : {}),
-      ...(description ? { description } : {}),
+      ...(long_description ? { long_description } : {}),
+      ...(short_description ? { short_description } : {}),
       ...(image ? { imageUrl: image } : {}),
+      ...(insta_image ? { insta_imageUrl: insta_image } : {}),
     };
   }, [searchParams]);
 
