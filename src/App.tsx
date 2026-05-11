@@ -2,10 +2,16 @@ import { useEffect, useMemo, useState } from 'react';
 
 type PageData = {
   image?: string;
+
+  blog_title?: string;
   short_description?: string;
   long_description?: string;
-  instagram_description?: string;
+
+  facebook_title?: string;
   facebook_description?: string;
+
+  instagram_title?: string;
+  instagram_description?: string;
 };
 
 const SHEET_CSV_URL =
@@ -77,7 +83,7 @@ function extractDriveFileId(value?: string) {
 
   if (!text) return '';
 
-  // already file id only
+  // if already only file id
   if (
     !text.includes('http') &&
     !text.includes('id=')
@@ -169,6 +175,13 @@ async function fetchContentById(
   return {
     image: generatedImageUrl,
 
+    // BLOG
+
+    blog_title:
+      matchedRow['BLOG TITLE'] ||
+      matchedRow.blog_title ||
+      '',
+
     short_description:
       matchedRow['SHORT DESCRIPTION'] ||
       matchedRow.short_description ||
@@ -179,19 +192,34 @@ async function fetchContentById(
       matchedRow.long_description ||
       '',
 
-    instagram_description:
-      matchedRow['INSTAGRAM DESCRIPTION'] ||
-      matchedRow.instagram_description ||
+    // FACEBOOK
+
+    facebook_title:
+      matchedRow['FACEBOOK TITLE'] ||
+      matchedRow.facebook_title ||
       '',
 
     facebook_description:
       matchedRow['FACEBOOK DESCRIPTION'] ||
       matchedRow.facebook_description ||
       '',
+
+    // INSTAGRAM
+
+    instagram_title:
+      matchedRow['INSTAGRAM TITLE'] ||
+      matchedRow.instagram_title ||
+      '',
+
+    instagram_description:
+      matchedRow['INSTAGRAM DESCRIPTION'] ||
+      matchedRow.instagram_description ||
+      '',
   };
 }
 
 function App() {
+
   const [data, setData] =
     useState<PageData | null>(null);
 
@@ -202,8 +230,11 @@ function App() {
     useState('');
 
   useEffect(() => {
+
     async function loadData() {
+
       try {
+
         const params =
           new URLSearchParams(
             window.location.search
@@ -212,6 +243,7 @@ function App() {
         const id = params.get('id');
 
         if (!id) {
+
           setError(
             'Missing content id in URL.'
           );
@@ -225,6 +257,7 @@ function App() {
           await fetchContentById(id);
 
         if (!result) {
+
           setError('Content not found.');
 
           setLoading(false);
@@ -237,6 +270,7 @@ function App() {
         setLoading(false);
 
       } catch (err) {
+
         console.error(err);
 
         setError(
@@ -248,11 +282,17 @@ function App() {
     }
 
     loadData();
+
   }, []);
 
   const imageUrl = useMemo(
     () => data?.image?.trim() || '',
     [data?.image]
+  );
+
+  const blogTitle = useMemo(
+    () => data?.blog_title?.trim() || '',
+    [data?.blog_title]
   );
 
   const shortDescription = useMemo(
@@ -267,11 +307,10 @@ function App() {
     [data?.long_description]
   );
 
-  const instagramDescription = useMemo(
+  const facebookTitle = useMemo(
     () =>
-      data?.instagram_description?.trim() ||
-      '',
-    [data?.instagram_description]
+      data?.facebook_title?.trim() || '',
+    [data?.facebook_title]
   );
 
   const facebookDescription = useMemo(
@@ -279,6 +318,19 @@ function App() {
       data?.facebook_description?.trim() ||
       '',
     [data?.facebook_description]
+  );
+
+  const instagramTitle = useMemo(
+    () =>
+      data?.instagram_title?.trim() || '',
+    [data?.instagram_title]
+  );
+
+  const instagramDescription = useMemo(
+    () =>
+      data?.instagram_description?.trim() ||
+      '',
+    [data?.instagram_description]
   );
 
   if (loading) {
@@ -303,7 +355,10 @@ function App() {
 
   return (
     <main className="screen">
+
       <article className="content-card">
+
+        {/* IMAGE */}
 
         {imageUrl ? (
           <>
@@ -320,44 +375,69 @@ function App() {
           </>
         ) : null}
 
+        {/* BLOG */}
+
+        {blogTitle ? (
+          <section className="content-text">
+
+            <h2 className="content-title">
+              Blog Title
+            </h2>
+
+            <p className="content-description">
+              {blogTitle}
+            </p>
+
+          </section>
+        ) : null}
+
         {shortDescription ? (
           <section className="content-text">
+
             <h2 className="content-title">
-              Short Description
+              Blog Short Description
             </h2>
 
             <p className="content-description">
               {shortDescription}
             </p>
+
           </section>
         ) : null}
 
         {longDescription ? (
           <section className="content-text">
+
             <h2 className="content-title">
-              Long Description
+              Blog Long Description
             </h2>
 
             <p className="content-description">
               {longDescription}
             </p>
+
           </section>
         ) : null}
 
-        {instagramDescription ? (
+        {/* FACEBOOK */}
+
+        {facebookTitle ? (
           <section className="content-text">
+
             <h2 className="content-title">
-              Instagram Description
+              Facebook Title
             </h2>
 
             <p className="content-description">
-              {instagramDescription}
+              {facebookTitle}
             </p>
+
           </section>
         ) : null}
 
         {facebookDescription ? (
           <section className="content-text">
+
             <h2 className="content-title">
               Facebook Description
             </h2>
@@ -365,10 +445,42 @@ function App() {
             <p className="content-description">
               {facebookDescription}
             </p>
+
+          </section>
+        ) : null}
+
+        {/* INSTAGRAM */}
+
+        {instagramTitle ? (
+          <section className="content-text">
+
+            <h2 className="content-title">
+              Instagram Title
+            </h2>
+
+            <p className="content-description">
+              {instagramTitle}
+            </p>
+
+          </section>
+        ) : null}
+
+        {instagramDescription ? (
+          <section className="content-text">
+
+            <h2 className="content-title">
+              Instagram Description
+            </h2>
+
+            <p className="content-description">
+              {instagramDescription}
+            </p>
+
           </section>
         ) : null}
 
       </article>
+
     </main>
   );
 }
