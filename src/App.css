@@ -1,142 +1,104 @@
-html,
-body,
-#root {
-  min-height: 100%;
-  margin: 0;
-}
-
-body {
-  overflow-y: auto;
-  font-family: Arial, Helvetica, sans-serif;
-  background: #f5f5f5;
-}
-
-.screen {
-  min-height: 100vh;
-  max-height: 100vh;
-  overflow-y: auto;
-  background: #f5f5f5;
-  padding: 20px;
-
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.screen::-webkit-scrollbar {
-  display: none;
-}
-
-.content-card {
-  width: 100%;
+.platform-card {
+  background: white;
+  margin: 20px auto;
   max-width: 900px;
-  margin: 0 auto;
-  background: #ffffff;
   border-radius: 16px;
-  overflow: hidden;
+  padding: 20px;
 }
 
-.section-title {
-  font-size: 20px;
-  font-weight: 700;
-  margin: 20px;
-  color: #111111;
+/* SECTION HEADER */
+.platform-heading {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 14px;
+  color: #111;
 }
 
-.hero-image {
+/* ---------------- IMAGE BASE ---------------- */
+/* IMPORTANT: keeps ORIGINAL aspect ratio intact */
+.platform-image {
+  display: block;
   width: 100%;
   height: auto;
-  max-height: none;
   object-fit: contain;
+  border-radius: 10px;
+  background: #f8f8f8;
+  margin-bottom: 16px;
+}
+
+/* ---------------- PLATFORM VARIANTS ---------------- */
+
+/* BLOG → BIG HERO STYLE (LANDSCAPE FEEL) */
+.blog-image {
+  width: 100%;
+  height: auto;
+  max-height: 500px;
+  object-fit: contain;
+   object-position: left bottom;  /* 👈 KEY FIX */
   display: block;
-  margin: 0;
+  border-radius: 10px;
 }
 
-.content-text {
-  padding: 20px;
+/* FACEBOOK → MID SIZE FEED STYLE */
+ .facebook-image {
+  width: 100%;
+  height: auto;
+  max-height: 450px;
+  object-fit: contain;
+   object-position: left bottom;  /* 👈 KEY FIX */
+  display: block;
+  border-radius: 10px;
 }
 
-.content-title {
-  font-size: 28px;
-  line-height: 1.3;
-  margin: 0 0 16px;
-  color: #111111;
-  font-weight: 700;
-}
+/* INSTAGRAM → MORE COMPACT VISUAL STYLE */
+ .instagram-image {
+  width: 100%;
+  height: auto;
+  max-height: 450px;
+  object-fit: contain;
+   object-position: left bottom;  /* 👈 KEY FIX */
+  display: block;
+  border-radius: 10px;
+} 
 
-h2.content-title {
+/* ---------------- TITLES ---------------- */
+.title {
   font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #111;
 }
 
-.content-description {
-  font-size: 16px;
+/* ---------------- DESCRIPTION ---------------- */
+.description {
+  font-size: 15px;
   line-height: 1.7;
-  margin: 0 0 14px;
-  color: #222222;
-  white-space: pre-wrap;
+  color: #333;
+  margin-bottom: 10px;
 }
 
-.content-description b {
-  color: #111111;
+/* ---------------- READ MORE BUTTON ---------------- */
+.read-more-btn {
+  margin-left: auto;
+  display: block;
+  background: #2563eb;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
 }
 
-.status {
-  background: #ffffff;
-  padding: 20px;
-  border-radius: 12px;
-  font-size: 16px;
-  color: #111111;
+.read-more-btn:hover {
+  background: #1d4ed8;
 }
 
+/* ---------------- DIVIDER ---------------- */
 .divider {
-  border-top: 3px solid #111111;
-  margin: 20px 5px 0;
-}
-
-@media (max-width: 480px) {
-  .screen {
-    padding: 0;
-  }
-
-  .content-card {
-    width: 100%;
-    max-width: 100%;
-    border-radius: 0;
-  }
-
-  .section-title {
-    margin: 10px 16px;
-    font-size: 18px;
-  }
-
-  .hero-image {
-    width: 100%;
-    height: auto !important;
-    max-height: none !important;
-    object-fit: contain;
-    display: block;
-    margin: 0;
-  }
-
-  .content-text {
-    padding: 16px;
-  }
-
-  .content-title {
-    font-size: 22px;
-    margin-top: 8px;
-    margin-bottom: 10px;
-  }
-
-  h2.content-title {
-    font-size: 20px;
-  }
-
-  .content-description {
-    font-size: 15px;
-    line-height: 1.6;
-  }
-
-  .divider {
-    margin-top: 12px;
-  }
+  height: 2px;
+  background: linear-gradient(to right, transparent, #ddd, transparent);
+  margin: 24px auto;
+  max-width: 900px;
 }

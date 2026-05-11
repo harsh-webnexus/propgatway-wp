@@ -1,15 +1,23 @@
-import { useEffect, useMemo, useState } from 'react';
+import {
+  useEffect,
+  useState,
+} from 'react';
 
 type PageData = {
-  image?: string;
 
+  // BLOG
+  blog_image?: string;
   blog_title?: string;
   short_description?: string;
   long_description?: string;
 
+  // FACEBOOK
+  facebook_image?: string;
   facebook_title?: string;
   facebook_description?: string;
 
+  // INSTAGRAM
+  instagram_image?: string;
   instagram_title?: string;
   instagram_description?: string;
 };
@@ -17,9 +25,10 @@ type PageData = {
 const SHEET_CSV_URL =
   'https://docs.google.com/spreadsheets/d/1Atww3T9F3icCBKLlgfKMfOA2NibiwcR7slXYWZoOLC0/gviz/tq?tqx=out:csv&sheet=AI%20GENERATED%20DATA';
 
+/* ---------------- CSV PARSER ---------------- */
+
 function parseCSV(csvText: string): Record<string, string>[] {
   const rows: string[][] = [];
-
   let currentRow: string[] = [];
   let currentValue = '';
   let insideQuotes = false;
@@ -36,22 +45,14 @@ function parseCSV(csvText: string): Record<string, string>[] {
     } else if (char === ',' && !insideQuotes) {
       currentRow.push(currentValue.trim());
       currentValue = '';
-    } else if (
-      (char === '\n' || char === '\r') &&
-      !insideQuotes
-    ) {
+    } else if ((char === '\n' || char === '\r') && !insideQuotes) {
       if (currentValue || currentRow.length > 0) {
         currentRow.push(currentValue.trim());
-
         rows.push(currentRow);
-
         currentRow = [];
         currentValue = '';
       }
-
-      if (char === '\r' && nextChar === '\n') {
-        i++;
-      }
+      if (char === '\r' && nextChar === '\n') i++;
     } else {
       currentValue += char;
     }
@@ -59,7 +60,6 @@ function parseCSV(csvText: string): Record<string, string>[] {
 
   if (currentValue || currentRow.length > 0) {
     currentRow.push(currentValue.trim());
-
     rows.push(currentRow);
   }
 
@@ -67,419 +67,172 @@ function parseCSV(csvText: string): Record<string, string>[] {
 
   return rows.slice(1).map((row) => {
     const item: Record<string, string> = {};
-
     headers.forEach((header, index) => {
       item[header.trim()] = row[index]?.trim() || '';
     });
-
     return item;
   });
 }
+
+/* ---------------- DRIVE IMAGE ---------------- */
 
 function extractDriveFileId(value?: string) {
   if (!value) return '';
 
   const text = String(value).trim();
 
-  if (!text) return '';
-
-  // if already only file id
-  if (
-    !text.includes('http') &&
-    !text.includes('id=')
-  ) {
+  if (!text.includes('http') && !text.includes('id=')) {
     return text;
   }
 
-  // query param
-  const idFromQuery =
-    text.match(/[?&]id=([^&]+)/)?.[1];
-
-  if (idFromQuery) {
-    return idFromQuery;
-  }
-
-  // /d/FILE_ID/
-  const idFromPath =
-    text.match(/\/d\/([^/?]+)/)?.[1];
-
-  if (idFromPath) {
-    return idFromPath;
-  }
-
-  return '';
+  return (
+    text.match(/[?&]id=([^&]+)/)?.[1] ||
+    text.match(/\/d\/([^/?]+)/)?.[1] ||
+    ''
+  );
 }
 
 function getGoogleDriveImageUrl(value?: string) {
-  if (!value) return '';
-
   const fileId = extractDriveFileId(value);
-
   if (!fileId) return '';
-
   return `https://lh3.googleusercontent.com/d/${fileId}=s0`;
 }
 
-async function fetchContentById(
-  contentId: string
-): Promise<PageData | null> {
+/* ---------------- FETCH DATA ---------------- */
 
-  const response = await fetch(SHEET_CSV_URL);
+async function fetchContentById(contentId: string): Promise<PageData | null> {
+  const res = await fetch(SHEET_CSV_URL);
+  const csv = await res.text();
+  const rows = parseCSV(csv);
 
-  if (!response.ok) {
-    throw new Error(
-      'Failed to fetch Google Sheet data'
-    );
-  }
-
-  const csvText = await response.text();
-
-  const rows = parseCSV(csvText);
-
-  console.log('All rows:', rows);
-
-  const matchedRow = rows.find((row) => {
-    return (
-      String(
-        row.CONTENTID ||
-        row.contentid ||
-        row['CONTENT ID'] ||
-        ''
-      ).trim() ===
-      String(contentId || '').trim()
-    );
-  });
-
-  console.log('Matched Row:', matchedRow);
-
-  if (!matchedRow) {
-    return null;
-  }
-
-  const driveFileId =
-    matchedRow.DRIVEFILEID ||
-    matchedRow.drivefileid ||
-    matchedRow['DRIVE FILE ID'] ||
-    '';
-
-  console.log('Drive File ID:', driveFileId);
-
-  const generatedImageUrl =
-    getGoogleDriveImageUrl(driveFileId);
-
-  console.log(
-    'Generated Image URL:',
-    generatedImageUrl
+  const row = rows.find(r =>
+    String(r.CONTENTID || '').trim() === String(contentId || '').trim()
   );
 
+  if (!row) return null;
+
   return {
-    image: generatedImageUrl,
+    blog_image: getGoogleDriveImageUrl(row.BLOGDRIVEFILEID),
+    blog_title: row['BLOG TITLE'] || '',
+    short_description: row['SHORT DESCRIPTION'] || '',
+    long_description: row['LONG DESCRIPTION'] || '',
 
-    // BLOG
+    facebook_image: getGoogleDriveImageUrl(row.FBDRIVEFILEID),
+    facebook_title: row['FACEBOOK TITLE'] || '',
+    facebook_description: row['FACEBOOK DESCRIPTION'] || '',
 
-    blog_title:
-      matchedRow['BLOG TITLE'] ||
-      matchedRow.blog_title ||
-      '',
-
-    short_description:
-      matchedRow['SHORT DESCRIPTION'] ||
-      matchedRow.short_description ||
-      '',
-
-    long_description:
-      matchedRow['LONG DESCRIPTION'] ||
-      matchedRow.long_description ||
-      '',
-
-    // FACEBOOK
-
-    facebook_title:
-      matchedRow['FACEBOOK TITLE'] ||
-      matchedRow.facebook_title ||
-      '',
-
-    facebook_description:
-      matchedRow['FACEBOOK DESCRIPTION'] ||
-      matchedRow.facebook_description ||
-      '',
-
-    // INSTAGRAM
-
-    instagram_title:
-      matchedRow['INSTAGRAM TITLE'] ||
-      matchedRow.instagram_title ||
-      '',
-
-    instagram_description:
-      matchedRow['INSTAGRAM DESCRIPTION'] ||
-      matchedRow.instagram_description ||
-      '',
+    instagram_image: getGoogleDriveImageUrl(row.INSTADRIVEFILEID),
+    instagram_title: row['INSTAGRAM TITLE'] || '',
+    instagram_description: row['INSTAGRAM DESCRIPTION'] || '',
   };
 }
 
+/* ---------------- COMPONENT ---------------- */
+
 function App() {
-
-  const [data, setData] =
-    useState<PageData | null>(null);
-
-  const [loading, setLoading] =
-    useState(true);
-
-  const [error, setError] =
-    useState('');
+  const [data, setData] = useState<PageData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [showMore, setShowMore] = useState(false);
 
   useEffect(() => {
+    async function load() {
+      const id = new URLSearchParams(window.location.search).get('id');
 
-    async function loadData() {
-
-      try {
-
-        const params =
-          new URLSearchParams(
-            window.location.search
-          );
-
-        const id = params.get('id');
-
-        if (!id) {
-
-          setError(
-            'Missing content id in URL.'
-          );
-
-          setLoading(false);
-
-          return;
-        }
-
-        const result =
-          await fetchContentById(id);
-
-        if (!result) {
-
-          setError('Content not found.');
-
-          setLoading(false);
-
-          return;
-        }
-
-        setData(result);
-
+      if (!id) {
+        setError('Missing content id');
         setLoading(false);
-
-      } catch (err) {
-
-        console.error(err);
-
-        setError(
-          'Unable to load content.'
-        );
-
-        setLoading(false);
+        return;
       }
+
+      const result = await fetchContentById(id);
+
+      if (!result) {
+        setError('Content not found');
+        setLoading(false);
+        return;
+      }
+
+      setData(result);
+      setLoading(false);
     }
 
-    loadData();
-
+    load();
   }, []);
 
-  const imageUrl = useMemo(
-    () => data?.image?.trim() || '',
-    [data?.image]
-  );
-
-  const blogTitle = useMemo(
-    () => data?.blog_title?.trim() || '',
-    [data?.blog_title]
-  );
-
-  const shortDescription = useMemo(
-    () =>
-      data?.short_description?.trim() || '',
-    [data?.short_description]
-  );
-
-  const longDescription = useMemo(
-    () =>
-      data?.long_description?.trim() || '',
-    [data?.long_description]
-  );
-
-  const facebookTitle = useMemo(
-    () =>
-      data?.facebook_title?.trim() || '',
-    [data?.facebook_title]
-  );
-
-  const facebookDescription = useMemo(
-    () =>
-      data?.facebook_description?.trim() ||
-      '',
-    [data?.facebook_description]
-  );
-
-  const instagramTitle = useMemo(
-    () =>
-      data?.instagram_title?.trim() || '',
-    [data?.instagram_title]
-  );
-
-  const instagramDescription = useMemo(
-    () =>
-      data?.instagram_description?.trim() ||
-      '',
-    [data?.instagram_description]
-  );
-
-  if (loading) {
-    return (
-      <main className="screen">
-        <p className="status">
-          Loading...
-        </p>
-      </main>
-    );
-  }
-
-  if (error || !data) {
-    return (
-      <main className="screen">
-        <p className="status">
-          {error || 'No data found.'}
-        </p>
-      </main>
-    );
-  }
+  if (loading) return <div className="status">Loading...</div>;
+  if (error || !data) return <div className="status">{error}</div>;
 
   return (
     <main className="screen">
 
-      <article className="content-card">
+      {/* ---------------- BLOG ---------------- */}
+      <section className="platform-card">
 
-        {/* IMAGE */}
+        <h2 className="platform-heading">Blog</h2>
 
-        {imageUrl ? (
-          <>
-            <p className="section-title">
-              Image
-            </p>
+        {data.blog_image && (
+          <img className="blog-image" src={data.blog_image} />
+        )}
 
-            <img
-              className="hero-image"
-              src={imageUrl}
-              alt="Content"
-              referrerPolicy="no-referrer"
-            />
-          </>
-        ) : null}
+        {data.blog_title && <h1 className="title">{data.blog_title}</h1>}
 
-        {/* BLOG */}
+        {data.short_description && (
+          <p className="description">{data.short_description}</p>
+        )}
 
-        {blogTitle ? (
-          <section className="content-text">
+        {showMore && (
+          <p className="long-description">{data.long_description}</p>
+        )}
 
-            <h2 className="content-title">
-              Blog Title
-            </h2>
+        {data.long_description && (
+          <button
+            className="read-more-btn"
+            onClick={() => setShowMore(!showMore)}
+          >
+            {showMore ? 'Show Less' : 'Read More'}
+          </button>
+        )}
 
-            <p className="content-description">
-              {blogTitle}
-            </p>
+      </section>
 
-          </section>
-        ) : null}
+      <div className="divider" />
 
-        {shortDescription ? (
-          <section className="content-text">
+      {/* ---------------- FACEBOOK ---------------- */}
+      <section className="platform-card facebook">
 
-            <h2 className="content-title">
-              Blog Short Description
-            </h2>
+        <h2 className="platform-heading">Facebook</h2>
 
-            <p className="content-description">
-              {shortDescription}
-            </p>
+        {data.facebook_image && (
+          <img className="facebook-image" src={data.facebook_image} />
+        )}
 
-          </section>
-        ) : null}
+        {data.facebook_title && <h1 className="title">{data.facebook_title}</h1>}
 
-        {longDescription ? (
-          <section className="content-text">
+        {data.facebook_description && (
+          <p className="description">{data.facebook_description}</p>
+        )}
 
-            <h2 className="content-title">
-              Blog Long Description
-            </h2>
+      </section>
 
-            <p className="content-description">
-              {longDescription}
-            </p>
+      <div className="divider" />
 
-          </section>
-        ) : null}
+      {/* ---------------- INSTAGRAM ---------------- */}
+      <section className="platform-card instagram">
 
-        {/* FACEBOOK */}
+        <h2 className="platform-heading">Instagram</h2>
 
-        {facebookTitle ? (
-          <section className="content-text">
+        {data.instagram_image && (
+          <img className="instagram-image" src={data.instagram_image} />
+        )}
 
-            <h2 className="content-title">
-              Facebook Title
-            </h2>
+        {data.instagram_title && <h1 className="title">{data.instagram_title}</h1>}
 
-            <p className="content-description">
-              {facebookTitle}
-            </p>
+        {data.instagram_description && (
+          <p className="description">{data.instagram_description}</p>
+        )}
 
-          </section>
-        ) : null}
-
-        {facebookDescription ? (
-          <section className="content-text">
-
-            <h2 className="content-title">
-              Facebook Description
-            </h2>
-
-            <p className="content-description">
-              {facebookDescription}
-            </p>
-
-          </section>
-        ) : null}
-
-        {/* INSTAGRAM */}
-
-        {instagramTitle ? (
-          <section className="content-text">
-
-            <h2 className="content-title">
-              Instagram Title
-            </h2>
-
-            <p className="content-description">
-              {instagramTitle}
-            </p>
-
-          </section>
-        ) : null}
-
-        {instagramDescription ? (
-          <section className="content-text">
-
-            <h2 className="content-title">
-              Instagram Description
-            </h2>
-
-            <p className="content-description">
-              {instagramDescription}
-            </p>
-
-          </section>
-        ) : null}
-
-      </article>
+      </section>
 
     </main>
   );
