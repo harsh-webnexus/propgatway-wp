@@ -6,7 +6,6 @@
   padding: 20px;
 }
 
-/* SECTION HEADER */
 .platform-heading {
   font-size: 22px;
   font-weight: bold;
@@ -14,54 +13,17 @@
   color: #111;
 }
 
-/* ---------------- IMAGE BASE ---------------- */
-/* IMPORTANT: keeps ORIGINAL aspect ratio intact */
-.platform-image {
-  display: block;
+.blog-image,
+.facebook-image,
+.instagram-image {
   width: 100%;
-  height: auto;
-  object-fit: contain;
+  display: block;
   border-radius: 10px;
-  background: #f8f8f8;
+  object-fit: contain;
+  object-position: left bottom;
   margin-bottom: 16px;
 }
 
-/* ---------------- PLATFORM VARIANTS ---------------- */
-
-/* BLOG → BIG HERO STYLE (LANDSCAPE FEEL) */
-.blog-image {
-  width: 100%;
-  height: auto;
-  max-height: 500px;
-  object-fit: contain;
-   object-position: left bottom;  /* 👈 KEY FIX */
-  display: block;
-  border-radius: 10px;
-}
-
-/* FACEBOOK → MID SIZE FEED STYLE */
- .facebook-image {
-  width: 100%;
-  height: auto;
-  max-height: 450px;
-  object-fit: contain;
-   object-position: left bottom;  /* 👈 KEY FIX */
-  display: block;
-  border-radius: 10px;
-}
-
-/* INSTAGRAM → MORE COMPACT VISUAL STYLE */
- .instagram-image {
-  width: 100%;
-  height: auto;
-  max-height: 450px;
-  object-fit: contain;
-   object-position: left bottom;  /* 👈 KEY FIX */
-  display: block;
-  border-radius: 10px;
-} 
-
-/* ---------------- TITLES ---------------- */
 .title {
   font-size: 24px;
   font-weight: 700;
@@ -69,7 +31,6 @@
   color: #111;
 }
 
-/* ---------------- DESCRIPTION ---------------- */
 .description {
   font-size: 15px;
   line-height: 1.7;
@@ -77,7 +38,6 @@
   margin-bottom: 10px;
 }
 
-/* ---------------- READ MORE BUTTON ---------------- */
 .read-more-btn {
   margin-left: auto;
   display: block;
@@ -88,17 +48,17 @@
   border: none;
   cursor: pointer;
   font-weight: 600;
-  transition: 0.2s;
+  cursor: pointer;
 }
 
-.read-more-btn:hover {
-  background: #1d4ed8;
-}
-
-/* ---------------- DIVIDER ---------------- */
 .divider {
   height: 2px;
-  background: linear-gradient(to right, transparent, #ddd, transparent);
+  background: linear-gradient(
+    to right,
+    transparent,
+    #ddd,
+    transparent
+  );
   margin: 24px auto;
   max-width: 900px;
 }
