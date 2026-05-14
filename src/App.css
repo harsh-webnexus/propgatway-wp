@@ -1,69 +1,927 @@
-.platform-card {
-  background: white;
-  margin: 20px auto;
-  max-width: 900px;
-  border-radius: 16px;
-  padding: 20px;
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
 }
 
-.platform-heading {
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Inter, Arial, Helvetica, sans-serif;
+  background: #ffffff;
+  color: #07152f;
+  overflow-x: hidden;
+}
+
+.status {
+  padding: 30px;
+}
+
+/* PROPGATEWAY BLOG */
+
+.pgHeader {
+  height: 82px;
+  background: #ffffff;
+  border-bottom: 1px solid #e8edf4;
+  display: flex;
+  align-items: center;
+}
+
+.pgHeaderInner {
+  width: min(1180px, calc(100vw - 32px));
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pgLogo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #0c2c4f;
+  font-weight: 800;
   font-size: 22px;
-  font-weight: bold;
-  margin-bottom: 14px;
-  color: #111;
 }
 
-.blog-image,
-.facebook-image,
-.instagram-image {
-  width: 100%;
-  display: block;
-  border-radius: 10px;
-  object-fit: contain;
-  object-position: left bottom;
-  margin-bottom: 16px;
+.pgLogoMark,
+.pgMiniAvatar {
+  background: #08264a;
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
 }
 
-.title {
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 10px;
-  color: #111;
+.pgLogoMark {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  font-size: 18px;
 }
 
-.description {
+.pgMiniAvatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-size: 12px;
+  flex: 0 0 auto;
+}
+
+.pgCallBtn {
+  background: #08264a;
+  color: #ffffff;
+  border: 0;
+  border-radius: 22px;
+  padding: 10px 24px;
   font-size: 15px;
-  line-height: 1.7;
-  color: #333;
-  margin-bottom: 10px;
+  font-weight: 800;
 }
 
-.read-more-btn {
+.pgBlogPage {
+  padding: 28px 0 70px;
+}
+
+.pgBlogLayout {
+  width: min(1180px, calc(100vw - 32px));
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 760px) 350px;
+  gap: 45px;
+  align-items: start;
+}
+
+.pgBlogPost {
+  border-bottom: 1px solid #e7edf5;
+  padding-bottom: 32px;
+}
+
+.pgBlogImage {
+  width: 100%;
+  height: 430px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  margin-bottom: 28px;
+}
+
+.pgBlogPost h1 {
+  font-size: 28px;
+  line-height: 1.25;
+  margin: 0 0 14px;
+  color: #020a1f;
+  font-weight: 800;
+}
+
+.pgBlogPost p {
+  font-size: 16px;
+  line-height: 1.65;
+  color: #3f4d63;
+  margin: 0 0 14px;
+}
+
+.pgDate {
+  display: block;
+  color: #697589;
+  font-size: 14px;
+  margin-top: 16px;
+}
+
+.pgReadMore {
   margin-left: auto;
+  margin-top: 18px;
   display: block;
   width: fit-content;
-  background: #000104;
-  color: white;
-  padding: 10px 16px;
-  border-radius: 8px;
+  background: #08264a;
+  color: #ffffff;
+  padding: 11px 22px;
+  border-radius: 7px;
   text-decoration: none;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.pgSidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.pgSearchCard,
+.pgFeaturedCard {
+  background: #ffffff;
+  border: 1px solid #e4eaf2;
+  border-radius: 2px;
+  padding: 18px;
+}
+
+.pgSearchCard h3 {
+  margin: 0 0 12px;
+  font-size: 17px;
+}
+
+.pgSearchCard input {
+  width: 100%;
+  height: 46px;
+  border: 1px solid #d6deeb;
+  border-radius: 10px;
+  padding: 0 14px;
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+
+.pgSearchCard button {
+  background: #08264a;
+  color: #ffffff;
+  border: 0;
+  border-radius: 9px;
+  padding: 12px 28px;
+  font-weight: 800;
+  font-size: 15px;
+}
+
+.pgFeaturedCard h3 {
+  margin: 0 0 16px;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  color: #34435a;
+}
+
+.pgFeaturedItem {
+  display: grid;
+  grid-template-columns: 78px 1fr;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid #e9eef5;
+}
+
+.pgFeaturedItem:last-child {
+  border-bottom: 0;
+}
+
+.pgFeaturedThumb {
+  width: 78px;
+  height: 54px;
+  object-fit: cover;
+  display: block;
+}
+
+.pgFeaturedItem p {
+  margin: 0;
+  color: #020a1f;
+  font-size: 14px;
+  line-height: 1.35;
+  font-weight: 700;
+}
+
+/* INSTAGRAM */
+
+.instagramFullPagePreview,
+.facebookFullPagePreview {
+  width: 100vw;
+  margin-top: 36px;
+  padding-bottom: 50px;
+  background: #ffffff;
+}
+
+.instagramFullPagePreview h2,
+.facebookFullPagePreview h2 {
+  width: min(1180px, calc(100vw - 32px));
+  margin: 0 auto 18px;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.instagramFullShell {
+  width: 100vw;
+  min-height: 760px;
+  background: #ffffff;
+  display: grid;
+  grid-template-columns: 245px minmax(360px, 620px) minmax(260px, 360px);
+  justify-content: center;
+  gap: 35px;
+  font-family: Arial, Helvetica, sans-serif;
+  border-top: 1px solid #efefef;
+}
+
+.igLeftNav {
+  height: 760px;
+  padding: 24px 12px;
+  border-right: 1px solid #efefef;
+}
+
+.igLogoIcon {
+  font-size: 27px;
+  margin: 0 0 32px 10px;
+  color: #111111;
+}
+
+.igSideMenu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.igMenuItem {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 14px;
+  border-radius: 8px;
+  color: #111111;
+}
+
+.igMenuItem.active {
+  background: #f2f2f2;
+  font-weight: 700;
+}
+
+.igMenuIcon {
+  width: 24px;
+  font-size: 27px;
+}
+
+.igMenuLabel {
+  font-size: 17px;
+}
+
+.igMainFeed {
+  padding-top: 26px;
+  min-width: 0;
+}
+
+.igPost {
+  width: min(520px, 100%);
+  margin: 0 auto;
+  background: #ffffff;
+}
+
+.igPostHeader {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.igAvatarRing {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(135deg, #f9ce34, #ee2a7b, #6228d7);
+  flex: 0 0 42px;
+}
+
+.igAvatarRing .pgMiniAvatar {
+  width: 100%;
+  height: 100%;
+  border: 2px solid #ffffff;
+}
+
+.igAccountInfo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+}
+
+.igAccountInfo strong,
+.igAccountInfo span {
+  font-size: 14px;
+}
+
+.igAccountInfo span {
+  color: #737373;
+}
+
+.igFollowBtn {
+  background: #efefef;
+  border: 0;
+  border-radius: 8px;
+  padding: 7px 18px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.igMoreBtn {
+  border: 0;
+  background: transparent;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.igPostImage {
+  width: 100%;
+  max-height: 650px;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  border-radius: 4px;
+  background: #f5f5f5;
+}
+
+.igActionRow {
+  height: 43px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 25px;
+}
+
+.igSave {
+  margin-left: auto;
+}
+
+.igLikes {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.igCaption {
+  font-size: 14px;
+  line-height: 20px;
+  margin: 0;
+  color: #111111;
+  white-space: pre-wrap;
+}
+
+.igRightPanel {
+  padding-top: 42px;
+}
+
+.igProfileRow,
+.igSuggestRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.igProfileAvatar,
+.igSuggestAvatar {
+  border-radius: 50%;
+  overflow: hidden;
+  background: #efefef;
+  flex: 0 0 auto;
+}
+
+.igProfileAvatar {
+  width: 50px;
+  height: 50px;
+}
+
+.igSuggestAvatar {
+  width: 45px;
+  height: 45px;
+}
+
+.igProfileAvatar .pgMiniAvatar,
+.igSuggestAvatar .pgMiniAvatar {
+  width: 100%;
+  height: 100%;
+}
+
+.igProfileRow div:nth-child(2),
+.igSuggestRow div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.igProfileRow strong,
+.igSuggestRow strong {
+  font-size: 14px;
+  color: #111111;
+}
+
+.igProfileRow span,
+.igSuggestRow span {
+  font-size: 13px;
+  color: #737373;
+  margin-top: 2px;
+}
+
+.igProfileRow a,
+.igSuggestRow a,
+.igSuggestHead a {
+  color: #003cff;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.igSuggestHead {
+  display: flex;
+  justify-content: space-between;
+  margin: 26px 0 18px;
+}
+
+.igSuggestHead strong {
+  font-size: 15px;
+}
+
+.igFooter {
+  margin-top: 45px;
+  color: #737373;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+/* FACEBOOK */
+
+.facebookFullShell {
+  width: 100vw;
+  height: 760px;
+  background: #f0f2f5;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden;
+  border-top: 1px solid #dddfe2;
+  border-bottom: 1px solid #dddfe2;
+}
+
+.fbFullLeftPanel {
+  background: #ffffff;
+  border-right: 1px solid #dddfe2;
+  padding: 10px 12px;
+}
+
+.fbFullTopSearch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fbFullLogo {
+  width: 30px;
+  height: 30px;
+  background: #1877f2;
+  color: #ffffff;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.fbFullSearch {
+  height: 30px;
+  flex: 1;
+  background: #f0f2f5;
+  border-radius: 20px;
+  color: #65676b;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+}
+
+.fbFullLeftPanel h3 {
+  margin: 14px 0 12px;
+  font-size: 18px;
+  color: #050505;
+}
+
+.fbFullPageRow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #dddfe2;
+}
+
+.fbFullPageRow strong {
+  font-size: 13px;
+  flex: 1;
+}
+
+.fbFullMenu {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 18px;
+  color: #65676b;
+  font-size: 13px;
   font-weight: 600;
-  cursor: pointer;
-  transition: 0.2s ease;
 }
 
-.read-more-btn:hover {
-  opacity: 0.9;
+.fbFullMain {
+  min-width: 0;
 }
 
-.divider {
-  height: 2px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    #ddd,
-    transparent
-  );
-  margin: 24px auto;
-  max-width: 900px;
+.fbFullTopNav {
+  height: 48px;
+  background: #ffffff;
+  border-bottom: 1px solid #dddfe2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(32px, 7vw, 90px);
+  color: #65676b;
+  font-size: 19px;
+}
+
+.fbFullPageHeader {
+  height: 52px;
+  background: #ffffff;
+  border-bottom: 1px solid #dddfe2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 22px;
+}
+
+.fbFullPageHeader div {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.fbFullPageHeader strong {
+  font-size: 13px;
+}
+
+.fbFullPageHeader button,
+.fbFullPostHeader button {
+  border: 0;
+  background: #e4e6eb;
+  border-radius: 7px;
+  padding: 7px 12px;
+  font-weight: 700;
+}
+
+.fbFullBody {
+  width: min(850px, calc(100vw - 300px));
+  margin: 0 auto;
+  padding-top: 10px;
+  display: grid;
+  grid-template-columns: minmax(280px, 350px) minmax(360px, 490px);
+  gap: 10px;
+}
+
+.fbFullCard,
+.fbFullPost {
+  background: #ffffff;
+  border: 1px solid #dddfe2;
+  border-radius: 8px;
+}
+
+.fbFullCard {
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.fbFullCard h3 {
+  margin: 0 0 10px;
+  font-size: 15px;
+}
+
+.fbFullCard p {
+  margin: 0 0 12px;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.fbFullPhotosHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.fbFullPhotosHead h3 {
+  margin: 0;
+}
+
+.fbFullPhotosHead a {
+  color: #1877f2;
+  font-size: 12px;
+}
+
+.fbFullPhotoGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+.fbFullPhotoThumb {
+  width: 100%;
+  height: 88px;
+  object-fit: cover;
+  display: block;
+  background: #f0f2f5;
+}
+
+.fbFullPost {
+  overflow: hidden;
+}
+
+.fbFullPostHeader {
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fbFullPostHeader div {
+  display: flex;
+  flex-direction: column;
+}
+
+.fbFullPostHeader strong {
+  font-size: 13px;
+}
+
+.fbFullPostHeader span {
+  font-size: 11px;
+  color: #65676b;
+}
+
+.fbFullPostHeader button {
+  margin-left: auto;
+  background: transparent;
+  color: #65676b;
+}
+
+.fbFullPostText {
+  margin: 0;
+  padding: 0 12px 8px;
+  font-size: 12.5px;
+  line-height: 17px;
+  color: #050505;
+}
+
+.fbFullPostImageWrap {
+  width: 100%;
+  background: #000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fbFullPostImage {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1200 / 630;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  background: #000000;
+}
+
+.fbFullStats {
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  color: #65676b;
+  font-size: 12px;
+  border-bottom: 1px solid #e4e6eb;
+}
+
+.fbFullActions {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  color: #65676b;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1280px) {
+  .pgBlogLayout {
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 30px;
+  }
+
+  .instagramFullShell {
+    grid-template-columns: 210px minmax(460px, 560px) 300px;
+    gap: 24px;
+  }
+
+  .igMenuLabel {
+    font-size: 15px;
+  }
+
+  .facebookFullShell {
+    grid-template-columns: 235px 1fr;
+  }
+
+  .fbFullBody {
+    width: min(800px, calc(100vw - 265px));
+    grid-template-columns: 320px minmax(360px, 470px);
+  }
+}
+
+@media (max-width: 991px) {
+  .pgHeader {
+    height: auto;
+    padding: 16px 0;
+  }
+
+  .pgBlogLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .pgSidebar {
+    order: 2;
+  }
+
+  .instagramFullShell,
+  .facebookFullShell {
+    width: 100%;
+    height: auto;
+    min-height: auto;
+    grid-template-columns: 1fr;
+  }
+
+  .igLeftNav,
+  .igRightPanel,
+  .fbFullLeftPanel,
+  .fbFullInfoCol {
+    display: none;
+  }
+
+  .igMainFeed {
+    padding: 18px 12px;
+  }
+
+  .igPost {
+    width: min(520px, 100%);
+  }
+
+  .fbFullBody {
+    width: min(520px, calc(100% - 24px));
+    grid-template-columns: 1fr;
+  }
+
+  .fbFullTopNav {
+    gap: 34px;
+  }
+}
+
+@media (max-width: 600px) {
+  .pgHeaderInner,
+  .pgBlogLayout,
+  .instagramFullPagePreview h2,
+  .facebookFullPagePreview h2 {
+    width: calc(100vw - 24px);
+  }
+
+  .pgLogo {
+    font-size: 18px;
+  }
+
+  .pgLogoMark {
+    width: 42px;
+    height: 42px;
+  }
+
+  .pgCallBtn {
+    padding: 9px 18px;
+  }
+
+  .pgBlogPage {
+    padding-top: 22px;
+  }
+
+  .pgBlogImage {
+    height: auto;
+    aspect-ratio: 1200 / 630;
+  }
+
+  .pgBlogPost h1 {
+    font-size: 23px;
+  }
+
+  .pgBlogPost p {
+    font-size: 15px;
+  }
+
+  .pgReadMore {
+    margin-left: auto;
+  }
+
+  .pgFeaturedItem {
+    grid-template-columns: 70px 1fr;
+  }
+
+  .igPostHeader {
+    gap: 8px;
+  }
+
+  .igFollowBtn {
+    padding: 6px 12px;
+  }
+
+  .igPostImage {
+    height: auto;
+    aspect-ratio: 4 / 5;
+  }
+
+  .fbFullTopNav {
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding: 0 16px;
+  }
+
+  .fbFullPageHeader {
+    padding: 0 12px;
+  }
+
+  .fbFullPostImage {
+    height: auto;
+    aspect-ratio: 1200 / 630;
+  }
+
+  .fbFullStats {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+.pgBlogHero {
+  width: min(1180px, calc(100vw - 32px));
+  margin: 0 auto;
+  padding: 48px 0 34px;
+  text-align: center;
+}
+
+.pgBlogHero h1 {
+  margin: 0 0 22px;
+  color: #0b1324;
+  font-size: clamp(36px, 4vw, 56px);
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+}
+
+.pgBlogHero p {
+  max-width: 980px;
+  margin: 0 auto;
+  color: #26364d;
+  font-size: clamp(17px, 1.5vw, 22px);
+  line-height: 1.35;
+}
+
+@media (max-width: 600px) {
+  .pgBlogHero {
+    padding: 32px 0 24px;
+  }
+
+  .pgBlogHero h1 {
+    font-size: 32px;
+  }
+
+  .pgBlogHero p {
+    font-size: 16px;
+  }
 }
