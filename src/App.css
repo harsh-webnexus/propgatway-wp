@@ -41,14 +41,19 @@
 .read-more-btn {
   margin-left: auto;
   display: block;
-  background: #2563eb;
+  width: fit-content;
+  background: #000104;
   color: white;
   padding: 10px 16px;
   border-radius: 8px;
-  border: none;
-  cursor: pointer;
+  text-decoration: none;
   font-weight: 600;
   cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.read-more-btn:hover {
+  opacity: 0.9;
 }
 
 .divider {

@@ -11,6 +11,7 @@ type PageData = {
   blog_title?: string;
   short_description?: string;
   long_description?: string;
+  post_slug?: string;
 
   // FACEBOOK
   facebook_image?: string;
@@ -346,6 +347,11 @@ async function fetchContentById(
         'LONG DESCRIPTION'
       ] || '',
 
+    post_slug:
+      matchedRow[
+        'post_slug'
+      ] || '',
+
     // FACEBOOK
     facebook_image:
 
@@ -404,9 +410,6 @@ function App() {
 
   const [error, setError] =
     useState('');
-
-  const [showMore, setShowMore] =
-    useState(false);
 
   useEffect(() => {
 
@@ -527,26 +530,16 @@ function App() {
           </p>
         )}
 
-        {showMore &&
-          data.long_description && (
+        {data.post_slug && (
 
-            <p className="description">
-              {data.long_description}
-            </p>
-        )}
-
-        {data.long_description && (
-
-          <button
+          <a
+            href={`https://propgateway.com/blog/${data.post_slug}`}
+            target="_blank"
+            rel="noopener noreferrer"
             className="read-more-btn"
-            onClick={() =>
-              setShowMore(!showMore)
-            }
           >
-            {showMore
-              ? 'Show Less'
-              : 'Read More'}
-          </button>
+            Preview
+          </a>
         )}
 
       </section>
